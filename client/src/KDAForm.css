@@ -30,6 +30,16 @@
     color: #e2c08d;
 }
 
+.kda-form select {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 80%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #2a2a3e;
+    color: #e2c08d;
+}
+
 .kda-form button {
     padding: 10px 20px;
     border: none;
@@ -52,18 +62,13 @@
     margin-top: 10px;
 }
 
-.region-button {
-    margin: 5px;
+.kda-display {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
     padding: 10px;
     background-color: #2a2a3e;
-    border: none;
     border-radius: 5px;
     color: #e2c08d;
-    cursor: pointer;
-}
-
-.region-button:hover,
-.region-button.selected {
-    background-color: #3a3a5e;
-    color: #e2c08d;
+    font-weight: bold;
 }

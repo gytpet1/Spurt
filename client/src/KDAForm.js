@@ -20,20 +20,35 @@ const platformRegions = [
 function KDAForm() {
     const [summonerName, setSummonerName] = useState('');
     const [platformRegion, setPlatformRegion] = useState('');
-    const [matchHistory, setMatchHistory] = useState([]);
+    const [kda, setKda] = useState(null);
+    const [program, setProgram] = useState('');
     const [error, setError] = useState('');
+    const [matchHistory, setMatchHistory] = useState([]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError('');
+        setKda(null);
+        setProgram('');
         setMatchHistory([]);
         try {
-            const response = await axios.get(`http://localhost:5000/get-match-history?summonerName=${summonerName}&platformRegion=${platformRegion}`);
-            console.log(`Request: http://localhost:5000/get-match-history?summonerName=${summonerName}&platformRegion=${platformRegion}`);
-            setMatchHistory(response.data.matchHistory);
+            const response = await axios.get(`http://localhost:5000/get-kda?summonerName=${summonerName}&platformRegion=${platformRegion}`);
+            console.log(`Request: http://localhost:5000/get-kda?summonerName=${summonerName}&platformRegion=${platformRegion}`);
+            const kdaValue = response.data.kda;
+            setKda(kdaValue);
+            if (kdaValue >= 3) {
+                setProgram('Intensive workout program');
+            } else if (kdaValue >= 1.5) {
+                setProgram('Moderate workout program');
+            } else {
+                setProgram('Light workout program');
+            }
+
+            const matchHistoryResponse = await axios.get(`http://localhost:5000/get-match-history?summonerName=${summonerName}&platformRegion=${platformRegion}`);
+            setMatchHistory(matchHistoryResponse.data.matchHistory);
         } catch (error) {
-            console.error('Error fetching match history:', error);
-            setError('An error occurred while fetching the match history. Please try again.');
+            console.error('Error fetching KDA:', error);
+            setError('An error occurred while fetching the KDA. Please try again.');
         }
     };
 
@@ -49,20 +64,27 @@ function KDAForm() {
                 />
                 <div>
                     <h3>Select Platform Region</h3>
-                    {platformRegions.map((region) => (
-                        <button
-                            type="button"
-                            key={region.value}
-                            onClick={() => setPlatformRegion(region.value)}
-                            className={`region-button ${platformRegion === region.value ? 'selected' : ''}`}
-                        >
-                            {region.name}
-                        </button>
-                    ))}
+                    <select
+                        value={platformRegion}
+                        onChange={(e) => setPlatformRegion(e.target.value)}
+                    >
+                        <option value="">Select Region</option>
+                        {platformRegions.map((region) => (
+                            <option key={region.value} value={region.value}>
+                                {region.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <button type="submit">Get Match History</button>
             </form>
             {error && <div className="error">{error}</div>}
+            {kda && (
+                <div className="kda-display">
+                    <h2>KDA: {kda}</h2>
+                    <h2>{program}</h2>
+                </div>
+            )}
             {matchHistory.length > 0 && <MatchHistory matchHistory={matchHistory} />}
         </div>
     );

@@ -8,10 +8,12 @@ function MatchHistory({ matchHistory }) {
             <ul>
                 {matchHistory.map((match, index) => (
                     <li key={index} className="match-item">
-                        <div className="champion-name">Champion: {match.championName}</div>
-                        <div>Kills: {match.kills}</div>
-                        <div>Deaths: {match.deaths}</div>
-                        <div>Assists: {match.assists}</div>
+                        <div className="match-row">
+                            <div className="match-detail"><strong> {match.championName}</strong></div>
+                            <div className="match-detail"><strong>Kills:</strong> {match.kills}</div>
+                            <div className="match-detail"><strong>Deaths:</strong> {match.deaths}</div>
+                            <div className="match-detail"><strong>Assists:</strong> {match.assists}</div>
+                        </div>
                     </li>
                 ))}
             </ul>

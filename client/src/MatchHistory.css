@@ -13,9 +13,12 @@
     color: #e2c08d;
 }
 
+.match-history ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+}
+
 .match-item {
-    display: flex;
-    flex-direction: column;
     background-color: #2a2a3e;
     padding: 10px;
     margin-bottom: 10px;
@@ -23,11 +26,16 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
-.match-item div {
-    margin-bottom: 5px;
-    color: #e2c08d;
+.match-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.champion-name {
-    font-weight: bold;
+.match-detail {
+    flex: 1;
+    min-width: 100px;
+    margin: 5px;
+    color: #e2c08d;
+    text-align: center;
 }

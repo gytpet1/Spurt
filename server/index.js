@@ -25,6 +25,20 @@ const regionMap = {
     'jp1': 'asia'
 };
 
+// Fetch the champion data from Data Dragon
+let championData = {};
+async function fetchChampionData() {
+    try {
+        const response = await axios.get('http://ddragon.leagueoflegends.com/cdn/11.24.1/data/en_US/champion.json');
+        championData = response.data.data;
+    } catch (error) {
+        console.error('Error fetching champion data:', error.message);
+    }
+}
+
+// Fetch champion data initially
+fetchChampionData();
+
 async function getPUUID(summonerName, platformRegion) {
     const region = regionMap[platformRegion];
     const url = `https://${region}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${summonerName}/${platformRegion}?api_key=${API_KEY}`;
@@ -72,6 +86,7 @@ async function getMatchHistory(summonerName, platformRegion) {
         for (let matchId of matchList) {
             const matchDetails = await getMatchDetails(matchId, platformRegion);
             const player = matchDetails.info.participants.find(p => p.puuid === puuid);
+            const champion = championData[player.championName];
 
             matchHistory.push({
                 championName: player.championName,
