@@ -1,0 +1,33 @@
+.match-history {
+    background-color: #1c1c2b; /* Dark blue background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+    color: #e2c08d; /* Gold text color */
+}
+
+.match-history h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #e2c08d;
+}
+
+.match-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #2a2a3e;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.match-item div {
+    margin-bottom: 5px;
+    color: #e2c08d;
+}
+
+.champion-name {
+    font-weight: bold;
+}
