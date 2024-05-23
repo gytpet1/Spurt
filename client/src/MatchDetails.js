@@ -69,4 +69,5 @@ function MatchDetails() {
     );
 }
 
+
 export default MatchDetails;
