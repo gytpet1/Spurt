@@ -3,7 +3,7 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 600px;
+    max-width: 1000px; /* Increase the max-width */
     margin: 20px auto;
     color: #e2c08d; /* Gold text color */
 }
@@ -20,17 +20,7 @@
     align-items: center;
 }
 
-.kda-form input {
-    padding: 10px;
-    margin-bottom: 20px;
-    width: 80%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #2a2a3e;
-    color: #e2c08d;
-}
-
-.kda-form select {
+.kda-form input, .kda-form select {
     padding: 10px;
     margin-bottom: 20px;
     width: 80%;

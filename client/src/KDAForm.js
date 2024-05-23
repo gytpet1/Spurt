@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import MatchHistory from './MatchHistory';
+import { useNavigate } from 'react-router-dom';
 import './KDAForm.css';
 
 const platformRegions = [
@@ -24,6 +24,7 @@ function KDAForm() {
     const [program, setProgram] = useState('');
     const [error, setError] = useState('');
     const [matchHistory, setMatchHistory] = useState([]);
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -33,7 +34,6 @@ function KDAForm() {
         setMatchHistory([]);
         try {
             const response = await axios.get(`http://localhost:5000/get-kda?summonerName=${summonerName}&platformRegion=${platformRegion}`);
-            console.log(`Request: http://localhost:5000/get-kda?summonerName=${summonerName}&platformRegion=${platformRegion}`);
             const kdaValue = response.data.kda;
             setKda(kdaValue);
             if (kdaValue >= 3) {
@@ -46,6 +46,9 @@ function KDAForm() {
 
             const matchHistoryResponse = await axios.get(`http://localhost:5000/get-match-history?summonerName=${summonerName}&platformRegion=${platformRegion}`);
             setMatchHistory(matchHistoryResponse.data.matchHistory);
+            navigate('/match-history', {
+                state: { matchHistory: matchHistoryResponse.data.matchHistory, platformRegion }
+            });
         } catch (error) {
             console.error('Error fetching KDA:', error);
             setError('An error occurred while fetching the KDA. Please try again.');
@@ -85,7 +88,6 @@ function KDAForm() {
                     <h2>{program}</h2>
                 </div>
             )}
-            {matchHistory.length > 0 && <MatchHistory matchHistory={matchHistory} />}
         </div>
     );
 }

@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const API_KEY = 'RGAPI-8d0acc03-56c9-4b2c-8c78-9d0a2b9b8223'; // Replace with your Riot Games API Key
+const API_KEY = 'RGAPI-7cefac87-1835-4298-8d65-1bc3f7be569d'; // Updated API Key
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -25,7 +25,6 @@ const regionMap = {
     'jp1': 'asia'
 };
 
-// Fetch the champion data from Data Dragon
 let championData = {};
 async function fetchChampionData() {
     try {
@@ -35,15 +34,12 @@ async function fetchChampionData() {
         console.error('Error fetching champion data:', error.message);
     }
 }
-
-// Fetch champion data initially
 fetchChampionData();
 
 async function getPUUID(summonerName, platformRegion) {
     const region = regionMap[platformRegion];
     const url = `https://${region}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${summonerName}/${platformRegion}?api_key=${API_KEY}`;
     try {
-        console.log(`Fetching PUUID: ${url}`);
         const response = await axios.get(url);
         return response.data.puuid;
     } catch (error) {
@@ -56,7 +52,6 @@ async function getMatchList(puuid, platformRegion) {
     const region = regionMap[platformRegion];
     const url = `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20&api_key=${API_KEY}`;
     try {
-        console.log(`Fetching match list: ${url}`);
         const response = await axios.get(url);
         return response.data;
     } catch (error) {
@@ -86,9 +81,9 @@ async function getMatchHistory(summonerName, platformRegion) {
         for (let matchId of matchList) {
             const matchDetails = await getMatchDetails(matchId, platformRegion);
             const player = matchDetails.info.participants.find(p => p.puuid === puuid);
-            const champion = championData[player.championName];
 
             matchHistory.push({
+                matchId: matchId,
                 championName: player.championName,
                 kills: player.kills,
                 deaths: player.deaths,
@@ -108,6 +103,16 @@ app.get('/get-match-history', async (req, res) => {
     try {
         const matchHistory = await getMatchHistory(summonerName, platformRegion);
         res.json({ matchHistory });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred', message: error.message });
+    }
+});
+
+app.get('/get-match-details', async (req, res) => {
+    const { matchId, platformRegion } = req.query;
+    try {
+        const matchDetails = await getMatchDetails(matchId, platformRegion);
+        res.json(matchDetails);
     } catch (error) {
         res.status(500).json({ error: 'An error occurred', message: error.message });
     }
