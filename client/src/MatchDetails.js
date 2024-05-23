@@ -27,15 +27,42 @@ function MatchDetails() {
         fetchMatchDetails();
     }, [matchId, platformRegion]);
 
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div className="error">{error}</div>;
+
+    const team1 = matchDetails?.info?.participants.slice(0, 5) || [];
+    const team2 = matchDetails?.info?.participants.slice(5, 10) || [];
+
     return (
         <div className="match-details-container">
             <button onClick={() => navigate(-1)}>Back</button>
-            {loading && <div>Loading...</div>}
-            {error && <div className="error">{error}</div>}
             {matchDetails && (
                 <div className="match-details">
                     <h3>Match Details for {matchId}</h3>
-                    <pre>{JSON.stringify(matchDetails, null, 2)}</pre>
+                    <div className="teams-container">
+                        <div className="team">
+                            <h4>Team 1</h4>
+                            {team1.map((player, index) => (
+                                <div key={index} className="player-details">
+                                    <div><strong>Champion:</strong> {player.championName}</div>
+                                    <div><strong>Kills:</strong> {player.kills}</div>
+                                    <div><strong>Deaths:</strong> {player.deaths}</div>
+                                    <div><strong>Assists:</strong> {player.assists}</div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="team">
+                            <h4>Team 2</h4>
+                            {team2.map((player, index) => (
+                                <div key={index} className="player-details">
+                                    <div><strong>Champion:</strong> {player.championName}</div>
+                                    <div><strong>Kills:</strong> {player.kills}</div>
+                                    <div><strong>Deaths:</strong> {player.deaths}</div>
+                                    <div><strong>Assists:</strong> {player.assists}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

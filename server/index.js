@@ -2,11 +2,12 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
+require('dotenv').config(); // Add this line to load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const API_KEY = 'RGAPI-7cefac87-1835-4298-8d65-1bc3f7be569d'; // Updated API Key
+const API_KEY = process.env.RIOT_API_KEY; // Use the environment variable
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -65,7 +66,15 @@ async function getMatchDetails(matchId, platformRegion) {
     const url = `https://${region}.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`;
     try {
         const response = await axios.get(url);
-        return response.data;
+        const matchDetails = response.data;
+
+        // Add champion names to participants
+        matchDetails.info.participants.forEach(participant => {
+            const champion = championData[participant.championName];
+            participant.championName = champion ? champion.name : 'Unknown';
+        });
+
+        return matchDetails;
     } catch (error) {
         console.error('Error fetching match details:', error.response ? error.response.data : error.message);
         throw error;

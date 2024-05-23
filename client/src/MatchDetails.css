@@ -1,0 +1,57 @@
+.match-details-container {
+    background-color: #1c1c2b; /* Dark blue background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+    color: #e2c08d; /* Gold text color */
+}
+
+.match-details-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.match-details-container button:hover {
+    background-color: #0056b3;
+}
+
+.match-details {
+    background-color: #2a2a3e;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.teams-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.team {
+    width: 48%;
+}
+
+.team h4 {
+    margin-bottom: 10px;
+}
+
+.player-details {
+    background-color: #3a3a5e;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.player-details div {
+    margin-bottom: 5px;
+    color: #e2c08d;
+}
